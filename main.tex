@@ -17,10 +17,12 @@
 Four parties on a square share a coherent sum of the two ways to pair adjacent
 parties by maximally entangled states of local dimension \(q\). How many pairs
 on both diagonals can they extract by local linear maps on many copies?
-Using the Euclidean prices theorem, we bound the number of output copies per
-input copy by \((1+1/\log_2 q)/\sqrt{2}\). For \(q\ge6\) this is strictly
-below one, although every bipartite flattening rank and every singleton
-quantum functional allows unit rate. A projection and routing protocol gives
+If the two diagonals receive independent outputs at rates \(r_1,r_2\),
+the Euclidean prices theorem gives
+\(r_1^2+r_2^2\le(1+1/\log_2 q)^2\). At equal rates this bounds the
+number of output copies per input by \((1+1/\log_2 q)/\sqrt{2}\).
+For \(q\ge6\) this is strictly below one, although every bipartite
+flattening rank and every singleton quantum functional allows unit rate. A projection and routing protocol gives
 a lower bound of \(\tfrac12\log_q\lfloor q/2\rfloor\) for \(q\ge4\).
 The same local tensor is a vertex weight of the completely packed loop model.
 On square patches we obtain a bound on independent boundary color
@@ -175,6 +177,51 @@ diagonal's label space gives \(\lfloor 2k\log_q d\rfloor\) target copies
 from \(4k\) inputs. Taking the supremum proves the claim.
 \end{proof}
 
+\section{Unequal rates on the two diagonals}
+
+Suppose \(n\) copies of \(U_q\) supply \(m_1\) copies of \(E_{13}(q)\)
+and, independently, \(m_2\) copies of \(E_{24}(q)\) in the same output.
+Write \(r_i=m_i/n\) and let \(c_q=1+1/\log q\).
+
+\begin{proposition}\label{prop:disk}
+Every achievable rate pair, and every limit of such pairs, satisfies
+\[
+ 0\le r_1,r_2\le 1,\qquad r_1^2+r_2^2\le c_q^2 .
+\]
+The same outer bound holds under fixed-block algebraic degeneration.
+\end{proposition}
+
+\begin{proof}
+The singleton cuts bound each rate by one. To weight the two diagonals
+separately, place parties \(1,3\) at \((\pm u,0)\) and \(2,4\) at
+\((0,\pm v)\), where \(u,v>0\). Each side now has length
+\(h=\sqrt{u^2+v^2}\); the half-perimeter is \(2h\).
+Each adjacent pairing costs \(2h\log q\), so \eqref{eq:sum} bounds the
+input price per copy by \(2h(\log q+1)\). The output has price
+\(2(um_1+vm_2)\log q\). Hence
+\[
+ u r_1+v r_2\le c_q\sqrt{u^2+v^2}.
+\]
+Continuity includes nonnegative weights. Taking \((u,v)=(r_1,r_2)\)
+gives the disk bound, including the trivial zero case. All inequalities
+are closed in the rates, and the fixed-placement closure lemma applies
+to each weighted inequality.
+\end{proof}
+
+For comparison, a quarter-turn preserves \(U_q\) and exchanges the two
+outputs. Running an achievable block and its rotated copy thus gives
+\(m_1+m_2\) copies of \(D_q\) from \(2n\) inputs. Theorem~\ref{thm:square}
+then bounds the average rate by \(\alpha_q\).
+At \(q=8\) and \(r_1=1\), averaging gives
+\(r_2\le 8/(3\sqrt2)-1\simeq0.88562\), while Proposition~\ref{prop:disk}
+gives \(r_2\le\sqrt7/3\simeq0.88192\). For example, \((1,0.884)\)
+satisfies the averaged bound and all seven cut-rank inequalities:
+the two adjacent cuts require \(r_1+r_2\le2\), the opposite cut has
+target rank one, and the singletons require \(r_i\le1\).
+The disk excludes this pair. Its intersection with \(r_1=r_2\)
+recovers the original geometric bound. Achievability on the circular
+boundary remains open here.
+
 \section{Boundary colors in a completely packed loop model}
 
 Put a cell in each unit square of \([0,L]^2\), with one color in
@@ -202,34 +249,38 @@ weights and defects. Each boundary site can act jointly on its \(s\) legs.
 Write \(\delta=k/(sL^2)\) for the fraction of defect cells over all patches.
 
 \begin{theorem}\label{thm:lattice}
-Under the Euclidean prices theorem, if the product of these boundary
-partition tensors restricts to \(C_{q,L}^{\otimes m}\), then
+Under the Euclidean prices theorem, suppose the output has \(m_x\)
+independent \(q\)-wires along each row and \(m_y\) along each column,
+all mutually independent. Write \(r_x=m_x/s,\ r_y=m_y/s\). For any
+\(u,v>0\),
+\[
+ u r_x+v r_y \le \delta(u+v)
+       +(1-\delta)\min\{u+v,c_q\sqrt{u^2+v^2}\}.
+\]
+In particular, extraction of \(C_{q,L}^{\otimes m}\) satisfies
 \[
  \frac ms\le \delta+(1-\delta)\min\{1,\alpha_q\}.
 \]
-The same inequality holds for algebraic degeneration at fixed \(s,L,m\).
+Both bounds hold for algebraic degeneration at fixed block size and format.
 \end{theorem}
 
 \begin{proof}
-The four cell midpoints form a diamond with side \(1/\sqrt2\) and mean
-width \(\sqrt2\). Each adjacent pairing uses two wires of length
-\(1/\sqrt2\), so \eqref{eq:sum} charges a regular cell at most
-\(\sqrt2(\log q+1)\). Every four-leg tensor also has price at most
-\(2\log q\): put its coefficient array at the center and move its four
-legs to their midpoints using wires of length \(1/2\). A pair of opposite
-straight wires attains this latter bound.
+Evaluate the price after scaling the horizontal axis by \(u\) and the
+vertical axis by \(v\). The numerical weights and contractions stay the
+same. The diamond formed by the four midpoints of a cell now has side
+\(h/2\) and mean width \(h\), where \(h=\sqrt{u^2+v^2}\). Each adjacent
+pairing uses two such sides. By \eqref{eq:sum} a regular cell costs at
+most \(h(\log q+1)\). For any cell we may also place its coefficient
+array at the center and supply the four midpoints using wires of lengths
+\(u/2,u/2,v/2,v/2\). This bounds the price by \((u+v)\log q\).
 
-By compatibility, the local price of each cell is unchanged on the union
-of all sites. The physical sum over an interior color is contraction with
-an equality covector at a single shared midpoint. All such contractions
-and all boundary maps are local. Additivity on products now bounds the
-price of the output by
-\[
- (sL^2-k)\min\{2\log q,\sqrt2(\log q+1)\}+2k\log q .
-\]
-Every one of the \(2L\) independent target wires spans distance \(L\).
-Dividing by the price \(2L^2\log q\) of one target gives the result.
-The closure assertion again follows at the fixed output placement.
+At every shared midpoint the contraction remains local. Compatibility and
+additivity bound the price of the assembled output by the sum of the cell
+bounds. The \(L m_x\) horizontal output wires each span \(Lu\), and the
+\(L m_y\) vertical wires each span \(Lv\). Dividing their total price by
+\(sL^2\log q\) gives the weighted inequality. Set \(m_x=m_y=m\) and
+\(u=v=1\) for the equal-rate statement. Closure follows at each fixed
+placement.
 \end{proof}
 
 For \(q=8\) a transmitted fraction \(m/s\ge0.99\) requires
